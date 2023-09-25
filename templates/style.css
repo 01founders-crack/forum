@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.headerHeader {}
+
+.LogoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.Logo {
+    padding-left: 20px;
+    padding-top:10px;
+}
+
+.LogoText {
+    margin-left: 5px;
+    padding-top: 10px;
+    font-family: 'IBM Plex Sans', sans-serif; 
+    font-size: 16px; 
+    font-weight: 500;
+}
+
+.s1 {
+    background-color: lightgray;
+}
+
