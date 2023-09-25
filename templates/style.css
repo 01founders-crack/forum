@@ -3,7 +3,11 @@ body{
     padding: 0;
 }
 
-.headerHeader {}
+.headerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .LogoContainer {
     display: flex;
@@ -21,6 +25,48 @@ body{
     font-family: 'IBM Plex Sans', sans-serif; 
     font-size: 16px; 
     font-weight: 500;
+}
+
+.Dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px; /* Adjust the margin as needed */
+}
+
+.DropdownBtn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.DropdownContent {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; 
+}
+
+.DropdownContent button {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: #f9f9f9;
+    color: #333;
+    border: none;
+    cursor: pointer;
+}
+
+.Dropdown:hover .DropdownContent {
+    display: block;
 }
 
 .s1 {
