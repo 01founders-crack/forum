@@ -80,6 +80,11 @@ body{
     display: block;
 }
 
+.headerLink {
+    text-decoration: none;
+    color: inherit;
+}
+
 .LogInButton {
     background-color: #333;
     color: white;
