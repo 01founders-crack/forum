@@ -1,14 +1,16 @@
+/* Whole Page */
 body{
     margin: 0;
     padding: 0;
 }
 
+/* Header Content */
 .headerHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+/* Logo Start */
 .LogoContainer {
     display: flex;
     align-items: center;
@@ -26,11 +28,13 @@ body{
     font-size: 16px; 
     font-weight: 500;
 }
+/* Logo End */
 
+/* Dropdown Start */
 .Dropdown {
     position: relative;
     display: inline-block;
-    margin-left: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
 }
 
 .DropdownBtn {
@@ -68,6 +72,7 @@ body{
 .Dropdown:hover .DropdownContent {
     display: block;
 }
+/* Dropdown End */
 
 .s1 {
     background-color: lightgray;
