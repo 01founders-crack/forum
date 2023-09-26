@@ -39,7 +39,7 @@ func renderLogRegTemplate(w http.ResponseWriter, tmpl string, data map[string]in
 	// Parse header, footer, and page templates
 	tmplFiles := []string{
 		"templates/layout_logreg.html", // Ensure "layout.html" is executed first
-		"templates/components/head.html",
+		"templates/components/head_logreg.html",
 		"templates/components/footer.html",
 		"templates/pages/" + tmpl,
 	}

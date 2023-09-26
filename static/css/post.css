@@ -1,0 +1,33 @@
+.post-form{
+  background-color: blueviolet;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 250,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.create-post{
+  background-color: aqua;
+}
+.choose-community{
+  background-color:pink;
+}
+.post-area{
+  background-color:aqua;
+}
+
+.text-counting{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  line-height: 12px;
+  text-transform: uppercase;
+  bottom: 12px;
+  color: var(--newCommunityTheme-actionIcon);
+  pointer-events: none;
+  position: absolute;
+  right: 12px;
+}

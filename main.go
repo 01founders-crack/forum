@@ -23,6 +23,9 @@ func main() {
 	// Handler for the registration page
 	mux.HandleFunc("/register", handlers.HandleRegister)
 
+	// Handler for the registration page
+	mux.HandleFunc("/create_post", handlers.HandleCreatePost)
+
 	// Handler for a sample post page
 	mux.HandleFunc("/post/1", handlers.HandlePost)
 

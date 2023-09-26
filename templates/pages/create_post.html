@@ -1,0 +1,54 @@
+{{define "content"}}
+
+        <div class="post-form">
+            <form action="/post" method="POST">
+                <div class="create-post">create a post</div>
+                <div class="choose-community">choose a community</div>
+                <div class="post-area">
+                    <div class="post-types-buttons">
+                        <button class="post-items-button">
+                            <span class="material-symbols-outlined">
+                                post_add
+                            </span>
+                            Post
+                        </button>
+                        <button class="post-items-button">
+                            <span class="material-symbols-outlined">
+                                image
+                            </span>
+                            Image & Video
+                        </button>
+                        <button class="post-items-button">
+                            <span class="material-symbols-outlined">
+                                link
+                            </span>
+                            Link
+                        </button>
+                    </div>
+                    post area
+                    <textarea class="post-textarea" maxlength="300" placeholder="Title" rows="1" styles="overflow-x:hidden;overflow-wrap:break word;height:38.6px">
+                    </textarea>
+                    <div class="text-counting">
+                        "0"
+                        "/"
+                        "300"
+                    </div>
+                </div>
+                    
+            </form>
+       </div>
+        <div class="form-group">
+            <label>Title</label>
+            <input name="title" type="text" class="form-control {{with .Form.Errors.Title}}is-invalid{{end}}"
+                placeholder="Give your post a great title" value="{{with .Form.Title}}{{.}}{{end}}">
+            <div class="invalid-feedback"></div>
+        </div>
+        <div class="form-group">
+            <label>Text</label>
+            <textarea name="content" class="form-control {{with .Form.Errors.Content}}is-invalid{{end}}" rows="3"
+                placeholder="Tell people about your thoughts">
+            </textarea>
+            <div class="invalid-feedback"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Post</button>
+{{end}}
