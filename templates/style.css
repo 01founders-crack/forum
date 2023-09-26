@@ -1,4 +1,8 @@
 /* Whole Page */
+html {
+    font-family: 'IBM Plex Sans', sans-serif; 
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -24,13 +28,16 @@ body{
 .LogoText {
     margin-left: 5px;
     padding-top: 10px;
-    font-family: 'IBM Plex Sans', sans-serif; 
     font-size: 16px; 
     font-weight: 500;
 }
 /* Logo End */
 
-/* Dropdown Start */
+/* Header Buttons Start */
+.HeaderButtons {
+    justify-content: flex-end;
+}
+
 .Dropdown {
     position: relative;
     display: inline-block;
@@ -72,7 +79,15 @@ body{
 .Dropdown:hover .DropdownContent {
     display: block;
 }
-/* Dropdown End */
+
+.LogInButton {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+/* Header Buttons End */
 
 .s1 {
     background-color: lightgray;
