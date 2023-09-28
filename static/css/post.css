@@ -1,6 +1,13 @@
-.post-form{
-  background-color: blueviolet;
+/* Style the post form container */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: rgb(48, 43, 72);
+  padding: 15px;
+  border-radius:20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -9,25 +16,137 @@
   'opsz' 24
 }
 
-.create-post{
-  background-color: aqua;
+/* Style the "create a post" heading */
+.create-post {
+  color:lightgrey;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
-.choose-community{
-  background-color:pink;
-}
-.post-area{
-  background-color:aqua;
+.choose-community-DropdownBtn .material-symbols-outlined {
+  margin-left: auto;
+  font-size: 24px;
 }
 
-.text-counting{
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  line-height: 12px;
-  text-transform: uppercase;
-  bottom: 12px;
-  color: var(--newCommunityTheme-actionIcon);
-  pointer-events: none;
+/* Style the "choose a community" dropdown button */
+.choose-community-DropdownBtn {
+  display: flex;
+  align-items: center;
+  background-color: #eee;
+  padding: 5px 15px;
+  margin: 20px 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.DropdownContent {
+  display: none;
   position: absolute;
-  right: 12px;
+  text-align: center;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0; 
+}
+
+.DropdownContent button {
+  width: 100%;
+  text-align: left;
+  padding: 5px 15px;
+  text-decoration: none;
+  display: block;
+  background-color: #f9f9f9;
+  color: #333;
+  border: none;
+  cursor: pointer;
+}
+
+.Dropdown:hover .DropdownContent {
+  display: block;
+}
+
+
+select {
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 5px 15px;
+  width: 100%;
+  margin: 20px 5px;
+}
+
+
+/* Style the form group (Title and Text) */
+.form-group {
+  margin: 20px 5px;
+  background-color: rgb(53, 49, 72);
+  border-radius: 3px;
+  padding: 5px 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+label{
+  margin-top: 8px;  
+  color:lightgrey;
+}
+
+.post-title {
+  background-color: #eee;
+  width: 96%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.post-textarea {
+  background-color: #eee;
+  width: 96%;
+  min-height: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+/* END of Style the form group (Title and Text) */
+
+/* Style the "upload image & video" button */
+.post-items-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+}
+
+
+.btn-primary{
+  background-color: #1f164b;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-left: 10px;
+  padding: 10px 10px;
+  background-color: rgb(53, 49, 72);
+  
+  cursor:pointer;
+  transition: background-color 0.3s ,color 0.1s ease;
+}
+  
+.btn-primary:hover{
+  cursor:pointer;
+  background-color: rgba(37, 34, 47, 0.663);
+  color: #fff;
 }
