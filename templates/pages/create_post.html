@@ -1,54 +1,45 @@
 {{define "content"}}
-
-        <div class="post-form">
+   <!--maybe all form login signin post all use same class and color tone??-->
+        <div class="form-container">
             <form action="/post" method="POST">
-                <div class="create-post">create a post</div>
-                <div class="choose-community">choose a community</div>
-                <div class="post-area">
-                    <div class="post-types-buttons">
-                        <button class="post-items-button">
-                            <span class="material-symbols-outlined">
-                                post_add
-                            </span>
-                            Post
-                        </button>
-                        <button class="post-items-button">
-                            <span class="material-symbols-outlined">
-                                image
-                            </span>
-                            Image & Video
-                        </button>
-                        <button class="post-items-button">
-                            <span class="material-symbols-outlined">
-                                link
-                            </span>
-                            Link
-                        </button>
-                    </div>
-                    post area
-                    <textarea class="post-textarea" maxlength="300" placeholder="Title" rows="1" styles="overflow-x:hidden;overflow-wrap:break word;height:38.6px">
-                    </textarea>
-                    <div class="text-counting">
-                        "0"
-                        "/"
-                        "300"
-                    </div>
+                <div class="create-post">Create a post</div>
+                <!--not sure how this should be, I put two different types-->
+                <button class="choose-community-DropdownBtn">
+                    choose a community
+                    <span class="material-symbols-outlined">
+                        expand_more
+                    </span>
+                </button>
+                    <!--this part is not working...-->
+                <div class="DropdownContent">
+                    {{ range .Categories }}
+                    <button class="DropdownItem">{{ .Topics }}</button>
+                    <button class="DropdownItem">{{ .Topics }}</button>
+                    {{end}}
                 </div>
-                    
+                     <!--End of this part is not working...-->
+                <select name="community" id="community">
+                    <option value="category1">category1</option>
+                    <option value="category2">category2</option>
+                    <option value="category3">category3</option>
+                    <option value="category4">category4</option>
+                </select>
+                <!--END of not sure how this should be-->
+                <div class="form-group">
+                    <label>Title</label>
+                    <input class="post-title" type="text" name="title" placeholder="Give your post a title" required>
+                    <label>Text</label>
+                    <textarea class="post-textarea" id="textarea" name="content" placeholder="Tell people about your thoughts"></textarea>
+                </div>
+                <div >
+                    <button class="btn-primary">
+                        <span class="material-symbols-outlined">
+                            upload
+                            </span>
+                        Image & Video
+                    </button>
+                    <button type="submit" class="btn-primary">Submit Post</button>
+                </div>
             </form>
        </div>
-        <div class="form-group">
-            <label>Title</label>
-            <input name="title" type="text" class="form-control {{with .Form.Errors.Title}}is-invalid{{end}}"
-                placeholder="Give your post a great title" value="{{with .Form.Title}}{{.}}{{end}}">
-            <div class="invalid-feedback"></div>
-        </div>
-        <div class="form-group">
-            <label>Text</label>
-            <textarea name="content" class="form-control {{with .Form.Errors.Content}}is-invalid{{end}}" rows="3"
-                placeholder="Tell people about your thoughts">
-            </textarea>
-            <div class="invalid-feedback"></div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit Post</button>
 {{end}}
