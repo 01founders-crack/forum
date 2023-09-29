@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Start the HTTP server
-	fmt.Println("Server is running on : http://localhost:8080 ...")
+	fmt.Println("Server is running on : http://localhost:8080")
 	err := server.ListenAndServe()
 	if err != nil {
 		fmt.Println("Server error:", err)
