@@ -1,8 +1,14 @@
 {{define "content"}}
    <!--maybe all form login signin post all use same class and color tone??-->
+   <section class="container">
+   <div class="post-background">
+    <div class="post-shape"></div>
+    <div class="post-shape"></div>
+  </div>
         <div class="form-container">
-            <form action="/post" method="POST">
-                <div class="create-post">Create a post</div>
+            <img src="static/img/illustration.png" alt="illustration" class="illustration" />
+            <form class="post-form" action="/post" method="POST">
+                <h2 class="post-heading">Create a post</h2>
                 <!--not sure how this should be, I put two different types-->
                 <button class="choose-community-DropdownBtn">
                     choose a community
@@ -31,7 +37,7 @@
                     <label>Text</label>
                     <textarea class="post-textarea" id="textarea" name="content" placeholder="Tell people about your thoughts"></textarea>
                 </div>
-                <div >
+                <div id="post-btn">
                     <button class="btn-primary">
                         <span class="material-symbols-outlined">
                             upload
@@ -41,5 +47,6 @@
                     <button type="submit" class="btn-primary">Submit Post</button>
                 </div>
             </form>
-       </div>
+        </div>
+</section>
 {{end}}
