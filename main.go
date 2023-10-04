@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"forum/handlers"
+	"forum/pkg/handlers"
 	"net/http"
 )
 
