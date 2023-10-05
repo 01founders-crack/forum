@@ -3,7 +3,7 @@
   <div class="shape"></div>
   <div class="shape"></div>
 </div>
-  <form class="logreg-form" role="form" action="/register" method="POST">
+  <form class="logreg-form" role="form" action="/registerauth" method="POST">
     <h3 class="logreg-heading">
       Sign up
     </h3>
@@ -12,18 +12,18 @@
       <input type="text" name="username" class="logreg-input" id="login" placeholder="Username" required>
     </div>
     <div class="logreg-form-group">
-      <input type="text" name="email" class="logreg-input" id="login" placeholder="Email" required>
+      <input type="email" name="email" class="logreg-input" id="login" placeholder="Email" required>
     </div>
     <div class="logreg-form-group">
-      <input type="text" name="password" class="logreg-input" id="login" placeholder="Password" required>
+      <input type="password" name="password" class="logreg-input" id="login" placeholder="Password" required >
     </div>
     <div class="logreg-form-group">
-      <input type="text" name="password-repeat" class="logreg-input" id="login" placeholder="Confirm Password" required>
+      <input type="password" name="password-repeat" class="logreg-input" id="login" placeholder="Confirm Password" required >
     </div>
     <button class="login-btn" type="submit">Submit</button>
     <h5 class="login-helper">
       Already a 01Cracker?
-      <a href="/login" rel="noopener noreferrer" style="color: #1845ad"> Log in</a>
+      <a href="/login" rel="noopener noreferrer" style="color: white"> Log in</a>
     </h5>
   </form>
 {{end}}
