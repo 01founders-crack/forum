@@ -2,8 +2,11 @@ package auth
 
 import (
 	"database/sql"
+	"fmt"
 	"forum/pkg/db" // Replace with the actual path to your db package
+	"log"
 	"net/http"
+	"unicode"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
@@ -22,7 +25,6 @@ func init() {
 	}
 }
 
-// RegisterHandler handles the user registration
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -32,6 +34,23 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	username := r.FormValue("username")
 	password := r.FormValue("password")
+	passwordSpace := false
+
+	for _, char := range password {
+		if unicode.IsSpace(int32(char)) {
+			passwordSpace = true
+		}
+	}
+
+	if db.CheckUserExists(email, username) {
+		http.Error(w, "User Already Exists", http.StatusInternalServerError)
+		return
+	}
+
+	if passwordSpace {
+		http.Error(w, "Password cannot contain spaces!", http.StatusInternalServerError)
+		return
+	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -57,20 +76,26 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	email := r.FormValue("email")
 	password := r.FormValue("password")
-
+	fmt.Println(email, ":::", password)
 	row, err := db.GetUserByEmail(email)
 	if err != nil {
 		http.Error(w, "Invalid login credentials", http.StatusUnauthorized)
 		return
 	}
 
-	var storedPassword string
-	err = row.Scan(&storedPassword)
-	if err != nil {
+	var (
+		userID         int
+		userEmail      string
+		username       string
+		storedPassword string
+	)
+
+	if err := row.Scan(&userID, &userEmail, &username, &storedPassword); err != nil {
 		if err == sql.ErrNoRows {
 			http.Error(w, "Invalid login credentials", http.StatusUnauthorized)
 			return
 		}
+		log.Printf("Error scanning user data: %v", err)
 		http.Error(w, "Login error", http.StatusInternalServerError)
 		return
 	}
@@ -82,6 +107,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	sessionUUID, err := uuid.NewRandom()
 	if err != nil {
+		log.Printf("Error generating session UUID: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -91,7 +117,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	session.Values["authenticated"] = true
 	session.Save(r, w)
 
-	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 // LogoutHandler handles logout

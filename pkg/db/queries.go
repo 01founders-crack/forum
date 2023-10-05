@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 // AddUser adds a new user to the users table
@@ -14,6 +15,19 @@ func AddUser(email, username, password string) (sql.Result, error) {
 func GetUserByEmail(email string) (*sql.Row, error) {
 	query := `SELECT * FROM users WHERE email = ?`
 	return db.QueryRow(query, email), nil
+}
+
+func CheckUserExists(email, username string) bool {
+	query := "SELECT COUNT(*) FROM users WHERE email = ? OR username = ?"
+
+	var count int
+	err := db.QueryRow(query, email, username).Scan(&count)
+	if err != nil {
+		fmt.Println("Error checking user existence:", err)
+		return false
+	}
+
+	return count > 0
 }
 
 // AddPost adds a new post to the posts table

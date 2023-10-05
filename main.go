@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"forum/pkg/auth"
+	"forum/pkg/db"
 	"forum/pkg/handlers"
 	"net/http"
 )
 
 func main() {
-
+	db.InitDB()
+	fmt.Println("db created")
 	// Create a new ServeMux (request multiplexer)
 	mux := http.NewServeMux()
 
@@ -20,10 +23,16 @@ func main() {
 	// Handler for the login page
 	mux.HandleFunc("/login", handlers.HandleLogin)
 
+	// Handler for the login authentication
+	mux.HandleFunc("/loginauth", auth.LoginHandler)
+
 	// Handler for the registration page
 	mux.HandleFunc("/register", handlers.HandleRegister)
 
-	// Handler for the registration page
+	// Handler for the registration authentication
+	mux.HandleFunc("/registerauth", auth.RegisterHandler)
+
+	// Handler for the CreatePost page
 	mux.HandleFunc("/create_post", handlers.HandleCreatePost)
 
 	// Handler for a sample post page

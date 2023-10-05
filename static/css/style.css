@@ -30,7 +30,6 @@ body{
     padding-top: 10px;
     font-size: 16px; 
     font-weight: 500;
-    color: white;
 }
 /* Logo End */
 
@@ -100,8 +99,7 @@ body{
 }
 
 
-footer {
-    color:white;
+.footerFooter {
     position:fixed;
     left: 0px;
     bottom: 0px;
