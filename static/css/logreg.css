@@ -70,6 +70,27 @@ body{
     right: -30px;
     bottom: -80px;
 }
+.flex-items-center{
+  display: flex;
+  margin: 15px 0;
+  align-items: center;
+}
+.h-px{
+  border-style: none;
+  flex-grow: 1;
+  margin: 0px;
+  border-top: 1px solid #eaf0fb;
+}
+
+.text-14 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  color: #eaf0fb;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
 .logreg-form-group{
   margin: 15px 0px;
 }
@@ -124,6 +145,7 @@ label{
 }
 .social div:hover{
   background-color: rgba(255,255,255,0.47);
+  cursor: pointer;
 }
 .social .fb{
   margin-left: 25px;

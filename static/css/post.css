@@ -1,28 +1,83 @@
+body{
+  margin: 0;
+  background-color: #080710;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+/*style for background decoration*/
+.post-background{
+  width: 430px;
+  height: 520px;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  left: 50%;
+  top: 50%;
+}
+.post-background .post-shape{
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  border-radius: 50%;
+}
+.post-shape:first-child{
+  background: linear-gradient(
+      #096701,
+      #40f946
+  );
+  right: -140px;
+  top: -80px;
+}
+.post-shape:last-child{
+  background: linear-gradient(
+      to right,
+      #cdd402,
+      #eff543
+  );
+  left: -140px;
+  bottom: -120px;
+}
+
+
 /* Style the post form container */
 .form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: rgb(48, 43, 72);
-  padding: 15px;
-  border-radius:20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 35rem;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 250,
-  'GRAD' 0,
-  'opsz' 24
+.illustration {
+  position: absolute;
+  top: -15%;
+  right: -2px;
+  width: 90%;
 }
 
-/* Style the "create a post" heading */
-.create-post {
+.post-form{
+  border: 1px solid hsla(0, 0%, 65%, 0.158);
+  box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 99;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.post-heading{
   color:lightgrey;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
-  margin-bottom: 20px;
+  line-height: 42px;
+  text-align: left;
 }
+.choose-community-Dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+}
+
 .choose-community-DropdownBtn .material-symbols-outlined {
   margin-left: auto;
   font-size: 24px;
@@ -33,6 +88,7 @@
   display: flex;
   align-items: center;
   background-color: #eee;
+  color:black;
   padding: 5px 15px;
   margin: 20px 5px;
   border: 1px solid #ccc;
@@ -45,102 +101,114 @@
   display: none;
   position: absolute;
   text-align: center;
-  background-color: #fff;
+  background-color: #eee;
+  color:black;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   right: 0; 
+
 }
 
-.DropdownContent button {
+.DropdownItem {
   width: 100%;
   text-align: left;
   padding: 5px 15px;
   text-decoration: none;
   display: block;
-  background-color: #f9f9f9;
+  background-color:#eee;
   color: #333;
   border: none;
   cursor: pointer;
 }
 
-.Dropdown:hover .DropdownContent {
+.DropdownItem:hover .DropdownContent {
   display: block;
 }
 
-
-select {
+select{
+  color:black;
+  display: block;
   border: none;
   border-radius: 3px;
   font-size: 16px;
   padding: 5px 15px;
-  width: 100%;
-  margin: 20px 5px;
+  width: 40%;
+  margin: 15px 5px;
+  cursor: pointer;
 }
+/* END of Style the form group (Title and Text) */
 
 
 /* Style the form group (Title and Text) */
 .form-group {
-  margin: 20px 5px;
-  background-color: rgb(53, 49, 72);
+  margin: 15px 5px;
+  background-color: rgba(255,255,255,0.13);
+  backdrop-filter: blur(30px);
   border-radius: 3px;
-  padding: 5px 15px;
+  padding: 15px 15px;
 }
-
+input::placeholder,
+textarea::placeholder{
+  color: rgba(0, 0, 0, 0.589);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 .form-group label {
   font-weight: bold;
   display: block;
-  margin-bottom: 5px;
-}
-label{
-  margin-top: 8px;  
+  margin: 10px 0;
   color:lightgrey;
 }
-
-.post-title {
+.post-title,
+.post-textarea{
   background-color: #eee;
   width: 96%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 3px;
   font-size: 16px;
 }
 
 .post-textarea {
-  background-color: #eee;
-  width: 96%;
   min-height: 150px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 16px;
 }
 /* END of Style the form group (Title and Text) */
 
 /* Style the "upload image & video" button */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 250,
+  'GRAD' 0,
+  'opsz' 24
+}
 .post-items-button {
   background-color: #333;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
   padding: 10px 20px;
   margin-right: 10px;
 }
-
+#post-btn{
+  vertical-align:top;
+  margin-top: 30px;
+  display: flex;
+}
 
 .btn-primary{
-  background-color: #1f164b;
   font-size: 16px;
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-left: 10px;
   padding: 10px 10px;
-  background-color: rgb(53, 49, 72);
-  
+  background-color: rgb(38, 33, 55);
+  vertical-align: top;
   cursor:pointer;
   transition: background-color 0.3s ,color 0.1s ease;
 }
