@@ -26,8 +26,8 @@
       #096701,
       #40f946
   );
-  right: -140px;
-  top: -80px;
+  right: -150px;
+  top: -120px;
 }
 .post-shape:last-child{
   background: linear-gradient(
@@ -36,7 +36,7 @@
       #eff543
   );
   left: -140px;
-  bottom: -120px;
+  bottom: -150px;
 }
 
 
@@ -44,13 +44,14 @@
 .form-container {
   position: relative;
   width: 35rem;
+  background-color:rgba(255,255,255,0.103);
 }
 
 .illustration {
   position: absolute;
-  top: -15%;
-  right: -2px;
-  width: 90%;
+  top: -10%;
+  right: -1px;
+  width: 70%;
 }
 
 .post-form{
@@ -62,7 +63,7 @@
   border-radius: 10px;
 }
 .post-heading{
-  color:lightgrey;
+  color:rgb(68, 63, 63);
   font-size: 32px;
   font-weight: bold;
   line-height: 42px;
@@ -154,7 +155,7 @@ textarea::placeholder{
   font-weight: bold;
   display: block;
   margin: 10px 0;
-  color:lightgrey;
+  color:rgb(68, 63, 63);
 }
 .post-title,
 .post-textarea{
@@ -181,7 +182,7 @@ textarea::placeholder{
 }
 .post-items-button {
   background-color: #333;
-  color: #fff;
+  color:rgb(68, 63, 63);
   border: none;
   border-radius: 5px;
   font-size: 16px;
