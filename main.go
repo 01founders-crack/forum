@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"forum/pkg/db"
 	"forum/pkg/handlers"
 	"net/http"
 )
 
 func main() {
-
+	db.InitDB()
+	fmt.Println("db created")
 	// Create a new ServeMux (request multiplexer)
 	mux := http.NewServeMux()
 
@@ -22,6 +24,9 @@ func main() {
 
 	// Handler for the registration page
 	mux.HandleFunc("/register", handlers.HandleRegister)
+
+	// Handler for the registration authentication
+	mux.HandleFunc("/registerauth", handlers.HandleRegisterAuth)
 
 	// Handler for the registration page
 	mux.HandleFunc("/create_post", handlers.HandleCreatePost)

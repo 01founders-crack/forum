@@ -22,32 +22,6 @@ func init() {
 	}
 }
 
-// RegisterHandler handles the user registration
-func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	email := r.FormValue("email")
-	username := r.FormValue("username")
-	password := r.FormValue("password")
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		http.Error(w, "Unable to register user", http.StatusInternalServerError)
-		return
-	}
-
-	_, err = db.AddUser(email, username, string(hashedPassword))
-	if err != nil {
-		http.Error(w, "Unable to register user", http.StatusInternalServerError)
-		return
-	}
-
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
-}
-
 // LoginHandler handles the user login
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
