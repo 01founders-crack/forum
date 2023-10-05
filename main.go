@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"forum/pkg/auth"
 	"forum/pkg/db"
 	"forum/pkg/handlers"
 	"net/http"
@@ -22,13 +23,16 @@ func main() {
 	// Handler for the login page
 	mux.HandleFunc("/login", handlers.HandleLogin)
 
+	// Handler for the login authentication
+	mux.HandleFunc("/loginauth", auth.LoginHandler)
+
 	// Handler for the registration page
 	mux.HandleFunc("/register", handlers.HandleRegister)
 
 	// Handler for the registration authentication
-	mux.HandleFunc("/registerauth", handlers.HandleRegisterAuth)
+	mux.HandleFunc("/registerauth", auth.RegisterHandler)
 
-	// Handler for the registration page
+	// Handler for the CreatePost page
 	mux.HandleFunc("/create_post", handlers.HandleCreatePost)
 
 	// Handler for a sample post page
