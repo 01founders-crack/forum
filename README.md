@@ -4,6 +4,13 @@
 
 Building your project:
 
+if you are using linux;
+```bash
+sudo systemctl start docker
+#and dont forgot to stop when you finish
+sudo systemctl stop docker
+```
+
 ```bash
 docker build -t forum-dockerize:latest .
 
