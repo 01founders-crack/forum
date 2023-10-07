@@ -40,7 +40,7 @@ func renderLogRegTemplate(w http.ResponseWriter, tmpl string, data map[string]in
 	tmplFiles := []string{
 		"templates/layout_logreg.html", // Ensure "layout.html" is executed first
 		"templates/components/head_logreg.html",
-		"templates/components/footer.html",
+		"templates/components/header_logreg.html",
 		"templates/pages/" + tmpl,
 	}
 
