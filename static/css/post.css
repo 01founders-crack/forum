@@ -215,3 +215,11 @@ textarea::placeholder{
   background-color: rgba(37, 34, 47, 0.663);
   color: #fff;
 }
+/*
+@media (max-width: 400px){
+ .contenter{
+  width: 375px;
+  height: 500px;
+ } 
+}
+  */

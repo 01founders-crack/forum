@@ -8,5 +8,5 @@ func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 		"Title":   "Sample create post Title",
 		"Content": "This is a sample post content.",
 	}
-	renderTemplate(w, "create_post.html", data)
+	renderProfileTemplate(w, "create_post.html", data)
 }

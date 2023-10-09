@@ -57,3 +57,30 @@ func renderLogRegTemplate(w http.ResponseWriter, tmpl string, data map[string]in
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+// Rin add layout_profile.html head_profile.html  header_profile.html
+func renderProfileTemplate(w http.ResponseWriter, tmpl string, data map[string]interface{}) {
+	// Set the response content type
+	w.Header().Set("Content-Type", "text/html")
+
+	// Parse header, footer, and page templates
+	tmplFiles := []string{
+		"templates/layout_profile_own.html", // Ensure "layout.html" is executed first
+		"templates/components/head_profile.html",
+		"templates/components/header_profile.html",
+		"templates/pages/" + tmpl,
+	}
+
+	// Parse the templates
+	t, err := template.ParseFiles(tmplFiles...)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Execute the templates with data
+	err = t.ExecuteTemplate(w, "layout_profile_own", data) // Execute "layout" template first
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
