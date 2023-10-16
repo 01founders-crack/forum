@@ -11,6 +11,7 @@
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: rgb(228, 228, 228);
+  z-index: 100;
 }
 
 /* left-section Start */
@@ -73,7 +74,7 @@
   flex-shrink: 0;
 }
 
-.chat-icon,.fire-icon,.create.icon,.advertise-icon,.apps-icon,.notifications-icon{
+.chat-icon,.fire-icon,.create.icon,.advertise-icon,.apps-icon,.notifications-icon,.hamburger-menu-icon{
   height: 24px;
   cursor: pointer;
 }
@@ -86,7 +87,8 @@
 .apps-container .tooltip,
 .notifications-container .tooltip,
 .create-container .tooltip,
-.advertise-container .tooltip {
+.advertise-container .tooltip,
+.hambergur-menu-container .tooltip {
   position: absolute;
   background-color: rgb(47, 47, 47);
   color: white;
