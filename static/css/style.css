@@ -5,7 +5,10 @@ html {
 
 body{
     margin: 0;
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 60px;
 }
 
 /* Header Content */
@@ -13,6 +16,11 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    height: 60px;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 /* Logo Start */
 .LogoContainer {
@@ -30,6 +38,7 @@ body{
     padding-top: 10px;
     font-size: 16px; 
     font-weight: 500;
+    white-space: nowrap;
 }
 /* Logo End */
 

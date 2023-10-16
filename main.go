@@ -38,6 +38,12 @@ func main() {
 	// Handler for a sample post page
 	mux.HandleFunc("/post/1", handlers.HandlePost)
 
+	// tempHandler for a user check their own profile page, Hard coding!!!!Need to change later!!!!!
+	mux.HandleFunc("/user/loki", handlers.HandleOwnProfile)
+
+	// tempHandler for a user check other user's profile page, Hard coding!!!!Need to change later!!!!
+	mux.HandleFunc("/user/Darcy", handlers.HandleOtherProfile)
+
 	// Create an HTTP server with the chosen address and ServeMux
 	server := &http.Server{
 		Addr:    ":8080", // Listen on port 8080
