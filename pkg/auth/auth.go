@@ -14,10 +14,10 @@ import (
 )
 
 // Store will hold all session data
-var store = sessions.NewCookieStore([]byte("super-secret-key"))
+var Store = sessions.NewCookieStore([]byte("super-secret-key"))
 
 func init() {
-	store.Options = &sessions.Options{
+	Store.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   3600 * 8, // 8 hours
 		HttpOnly: true,
@@ -112,7 +112,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session, _ := store.Get(r, "user-session")
+	session, _ := Store.Get(r, "user-session")
 	session.Values["uuid"] = sessionUUID.String()
 	session.Values["authenticated"] = true
 	session.Save(r, w)
@@ -122,8 +122,26 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 // LogoutHandler handles logout
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "user-session")
+	session, err := Store.Get(r, "user-session")
+	if err != nil {
+		http.Error(w, "Session error", http.StatusInternalServerError)
+		return
+	}
+
+	// Set the "authenticated" value to false to indicate that the user is logged out.
 	session.Values["authenticated"] = false
-	session.Save(r, w)
+
+	// Delete the session values you want to clear (e.g., "uuid" and "authenticated").
+	delete(session.Values, "uuid")
+	delete(session.Values, "authenticated")
+
+	// Save the session to apply the changes.
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, "Error saving session", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect the user to the login page or any other appropriate destination.
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

@@ -32,6 +32,9 @@ func main() {
 	// Handler for the registration authentication
 	mux.HandleFunc("/registerauth", auth.RegisterHandler)
 
+	// Handler for the login page
+	mux.HandleFunc("/logout", auth.LogoutHandler)
+
 	// Handler for the CreatePost page
 	mux.HandleFunc("/create_post", handlers.HandleCreatePost)
 
