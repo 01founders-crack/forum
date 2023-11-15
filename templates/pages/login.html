@@ -1,62 +1,19 @@
 {{define "content"}}
-  <div class="background">
-    <div class="shape"></div>
-    <div class="shape"></div>
-  </div>
-  <form class="logreg-form" role="form" action="/loginauth" method="POST">
-    <h3 class="logreg-heading">Log In</h3>
-    <div class="social">
-      <div class="go"><i class="fab fa-google"></i> Google</div>
-      <div class="fb"><i class="fab fa-apple"></i> Apple</div>
-    </div> 
-      <div class="flex-items-center">
-        <hr class="h-px">
-          <span class="text-14">
-          OR
-          </span>
-        <hr class="h-px">
-      </div>
+<div class="container">
+  <h1>Log In</h1>
+  <form action="loginauth" role="form" method="POST">
+    <label for="email"><b>Email</b></label>
+    <input type="email" placeholder="Enter Email" name="email" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit"><i class="fa fa-sign-in"></i>Log In</button>
+
+    <div class="Sign-Up">
+      <a href="/register">New? Sign-Up Here!</a>
     </div>
-    <div class="logreg-form-group">
-      <input type="email" name="email" class="logreg-input" id="login" placeholder="Email" required>
-    </div>
-    <div class="logreg-form-group">
-      <input type="password" name="password" class="logreg-input" id="password" placeholder="Password" required>
-    </div>
-      <button class="login-btn" type="submit">Log In</button><br>
-      <h5 class="login-helper">
-       New to 01Cracker?
-      <a href="/register" rel="noopener noreferrer" style="color: white"> Sign Up</a>
-      </h5>
- 
   </form>
+</div>
 {{end}}
 
-
-<!--
-  
-  
-
-<body>
-  <div class="background">
-      <div class="shape"></div>
-      <div class="shape"></div>
-  </div>
-  <form>
-      <h3>Login Here</h3>
-
-      <label for="username">Username</label>
-      <input type="text" placeholder="Email or Phone" id="username">
-
-      <label for="password">Password</label>
-      <input type="password" placeholder="Password" id="password">
-
-      <button>Log In</button>
-      <div class="social">
-        <div class="go"><i class="fab fa-google"></i>  Google</div>
-        <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
-      </div>
-  </form>
-</body>
-
--->
