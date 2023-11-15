@@ -114,6 +114,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	session, _ := Store.Get(r, "user-session")
 	session.Values["uuid"] = sessionUUID.String()
+	session.Values["user_id"] = userID
+	session.Values["username"] = username
+	session.Values["email"] = userEmail
 	session.Values["authenticated"] = true
 	session.Save(r, w)
 
@@ -134,6 +137,9 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	// Delete the session values you want to clear (e.g., "uuid" and "authenticated").
 	delete(session.Values, "uuid")
 	delete(session.Values, "authenticated")
+	delete(session.Values, "user_id")
+	delete(session.Values, "username")
+	delete(session.Values, "email")
 
 	// Save the session to apply the changes.
 	err = session.Save(r, w)

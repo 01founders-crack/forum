@@ -5,6 +5,7 @@ import (
 	"forum/pkg/auth"
 	"forum/pkg/db"
 	"forum/pkg/handlers"
+	"forum/pkg/middleware"
 	"net/http"
 )
 
@@ -36,7 +37,7 @@ func main() {
 	mux.HandleFunc("/logout", auth.LogoutHandler)
 
 	// Handler for the CreatePost page
-	mux.HandleFunc("/create_post", handlers.HandleCreatePost)
+	mux.HandleFunc("/create_post", middleware.Auth(handlers.HandleCreatePost))
 
 	// Handler for a sample post page
 	mux.HandleFunc("/post/1", handlers.HandlePost)

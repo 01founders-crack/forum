@@ -4,6 +4,14 @@
 <!-- Main Page Content-->
 <section class="s1">
     <p>yo again</p>
+    {{if .SessionData.authenticated}}
+    <!-- User is authenticated -->
+    <p>Welcome, {{.SessionData.username}}!</p>
+{{else}}
+    <!-- User is not authenticated -->
+    <p>Please log in.</p>
+{{end}}
+
 </section>
 
 {{end}}
