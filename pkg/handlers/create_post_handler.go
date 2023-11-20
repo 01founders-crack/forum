@@ -15,9 +15,10 @@ func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 	// User is authenticated
 	// Pass the session data to the template
 	data := map[string]interface{}{
-		"Title":       "Sample create post Title",
-		"SessionData": session.Values,
+		"Title":        "Sample create post Title",
+		"SessionData":  session.Values,
+		"IsCreatePost": true,
 	}
 
-	renderProfileTemplate(w, "create_post.html", data)
+	renderTemplate(w, "create_post.html", data)
 }

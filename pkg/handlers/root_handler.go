@@ -18,6 +18,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		"Title":       "Home Page",
 		"SessionData": session.Values,
+		"IsHomePage":  true,
 	}
 	renderTemplate(w, "index.html", data)
 }
