@@ -10,7 +10,7 @@ func Auth(handler http.HandlerFunc) http.HandlerFunc {
 		// Add authentication code here
 		session, _ := auth.Store.Get(r, "user-session")
 		if session.Values["authenticated"] != true {
-			http.Error(w, "Forbidden", http.StatusForbidden)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 
