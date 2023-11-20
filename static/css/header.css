@@ -32,6 +32,7 @@ body {
     position: absolute;
     right: 0;
     padding-right: 30px;
+    top: 25px;
 }
 
 .dropdown-content {
@@ -75,4 +76,10 @@ footer {
     bottom: 0px;
     width: 100%;
     text-align: center;
+}
+
+.dropdown a svg {
+    position: relative;
+    left: -37px; /* Adjust this value to move the SVG left or right */
+    top: 10px; /* Adjust this value to move the SVG up or down */
 }
