@@ -11,6 +11,11 @@ sudo systemctl start docker
 sudo systemctl stop docker
 ```
 
+insert data to db 
+```bash
+sqlite3 forum.db < init_categories.sql
+```
+
 ```bash
 docker build -t forum-dockerize:latest .
 

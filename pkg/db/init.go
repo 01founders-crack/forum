@@ -7,13 +7,13 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var db *sql.DB
+var MyDBVar *sql.DB
 
 // InitDB initializes the SQLite database
 func InitDB() {
 	var err error
 	// Open the SQLite database file
-	db, err = sql.Open("sqlite3", "./forum.db")
+	MyDBVar, err = sql.Open("sqlite3", "./forum.db")
 	if err != nil {
 		log.Fatal("Could not open database: ", err)
 	}
@@ -26,7 +26,7 @@ func InitDB() {
 		username TEXT NOT NULL UNIQUE,
 		password TEXT NOT NULL
 	);`
-	_, err = db.Exec(createUsersTable)
+	_, err = MyDBVar.Exec(createUsersTable)
 	if err != nil {
 		log.Fatal("Could not create users table: ", err)
 	}
@@ -36,12 +36,14 @@ func InitDB() {
 	CREATE TABLE IF NOT EXISTS posts (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		user_id INTEGER,
+		title TEXT NOT NULL,
 		content TEXT NOT NULL,
-		category_id INTEGER,
+		img VARCHAR(255),
+		category_id INTEGER NOT NULL,
 		FOREIGN KEY (user_id) REFERENCES users (id),
 		FOREIGN KEY (category_id) REFERENCES categories (id)
 	);`
-	_, err = db.Exec(createPostsTable)
+	_, err = MyDBVar.Exec(createPostsTable)
 	if err != nil {
 		log.Fatal("Could not create posts table: ", err)
 	}
@@ -56,7 +58,7 @@ func InitDB() {
 		FOREIGN KEY (user_id) REFERENCES users (id),
 		FOREIGN KEY (post_id) REFERENCES posts (id)
 	);`
-	_, err = db.Exec(createCommentsTable)
+	_, err = MyDBVar.Exec(createCommentsTable)
 	if err != nil {
 		log.Fatal("Could not create comments table: ", err)
 	}
@@ -67,7 +69,7 @@ func InitDB() {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL UNIQUE
 	);`
-	_, err = db.Exec(createCategoriesTable)
+	_, err = MyDBVar.Exec(createCategoriesTable)
 	if err != nil {
 		log.Fatal("Could not create categories table: ", err)
 	}
@@ -81,7 +83,7 @@ func InitDB() {
 		FOREIGN KEY (user_id) REFERENCES users (id),
 		FOREIGN KEY (post_id) REFERENCES posts (id)
 	);`
-	_, err = db.Exec(createLikesTable)
+	_, err = MyDBVar.Exec(createLikesTable)
 	if err != nil {
 		log.Fatal("Could not create likes table: ", err)
 	}
@@ -95,7 +97,7 @@ func InitDB() {
 		FOREIGN KEY (user_id) REFERENCES users (id),
 		FOREIGN KEY (post_id) REFERENCES posts (id)
 	);`
-	_, err = db.Exec(createDisLikesTable)
+	_, err = MyDBVar.Exec(createDisLikesTable)
 	if err != nil {
 		log.Fatal("Could not create dislikes table: ", err)
 	}
@@ -103,5 +105,5 @@ func InitDB() {
 
 // GetDB returns the database instance
 func GetDB() *sql.DB {
-	return db
+	return MyDBVar
 }

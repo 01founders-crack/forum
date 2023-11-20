@@ -37,7 +37,7 @@ func main() {
 	mux.HandleFunc("/logout", auth.LogoutHandler)
 
 	// Handler for the CreatePost page
-	mux.HandleFunc("/create_post", middleware.Auth(handlers.HandleCreatePost))
+	mux.HandleFunc("/create_post", middleware.Auth(handlers.HandleCreatePostPage))
 
 	// Handler for a sample post page
 	mux.HandleFunc("/post/1", handlers.HandlePost)
