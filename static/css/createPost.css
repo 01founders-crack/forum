@@ -67,3 +67,21 @@ body {
 .post-form select:hover {
   background: black;
 }
+.notif {
+  color:white;
+  text-align: center;
+  border: 3px solid yellow;
+  padding: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .post-form input[type="text"],
+  .post-form textarea {
+    padding: 10px 15px;
+  }
+
+  .post-form input[type="submit"] {
+    padding: 12px 15px;
+  }
+}

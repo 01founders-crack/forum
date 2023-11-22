@@ -3,7 +3,7 @@ header {
     align-items: center;
     background-color: #303030;
     width: 100%;
-    position: fixed;
+    position: relative;
     top: 0;
 }
 
@@ -65,21 +65,22 @@ body {
 
 /*--Dropdown Button*/
 
-.s1 {
-    padding-top:60px;
-    background-color: lightgray;
-}
-
-footer {
-    position:fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-}
-
 .dropdown a svg {
     position: relative;
     left: -37px; /* Adjust this value to move the SVG left or right */
     top: 10px; /* Adjust this value to move the SVG up or down */
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+    .BrandName {
+        margin-left: 10px; 
+    }
+
+    .dropdown {
+        padding-right: 15px;
+    }
+
+    .dropdown-content {
+        min-width: 100px;
+    }
 }
