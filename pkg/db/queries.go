@@ -60,6 +60,20 @@ func GetPostsByCategory(categoryID int) ([]models.Post, error) {
 	return posts, nil
 }
 
+// GetPostByID retrieves a post by its ID
+func GetPostByID(postID int) (models.Post, error) {
+	query := `SELECT * FROM posts WHERE id = ?`
+	row := MyDBVar.QueryRow(query, postID)
+
+	var post models.Post
+	err := row.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Img, &post.CategoryID)
+	if err != nil {
+		return models.Post{}, err
+	}
+
+	return post, nil
+}
+
 // GetAllPosts retrieves all posts
 func GetAllPosts() ([]models.Post, error) {
 	query := `SELECT * FROM posts`

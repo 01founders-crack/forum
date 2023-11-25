@@ -40,7 +40,7 @@ func main() {
 	mux.HandleFunc("/create_post", middleware.Auth(handlers.HandleCreatePostPage))
 
 	// Handler for a sample post page
-	mux.HandleFunc("/post/1", handlers.HandlePost)
+	mux.HandleFunc("/post/", handlers.HandlePost)
 
 	// tempHandler for a user check their own profile page, Hard coding!!!!Need to change later!!!!!
 	mux.HandleFunc("/user/loki", handlers.HandleOwnProfile)

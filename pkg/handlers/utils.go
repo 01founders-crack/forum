@@ -3,6 +3,8 @@ package handlers
 import (
 	"html/template"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data map[string]interface{}) {
@@ -83,4 +85,18 @@ func renderProfileTemplate(w http.ResponseWriter, tmpl string, data map[string]i
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func extractPostID(path string) (int, error) {
+	parts := strings.Split(path, "/")
+	idStr := parts[len(parts)-1]
+
+	// Convert the string to an integer
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		// Return an error if the conversion fails
+		return 0, err
+	}
+
+	return id, nil
 }
