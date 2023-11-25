@@ -9,7 +9,7 @@ import (
 
 func HandlePost(w http.ResponseWriter, r *http.Request) {
 	// You can retrieve the post data from the database here
-	postID, err := extractPostID(r.URL.Path)
+	postID, err := extractID(r.URL.Path)
 	if err != nil {
 		// Handle the error, for example, return a 400 Bad Request
 		http.Error(w, "Invalid ID in URL", http.StatusBadRequest)

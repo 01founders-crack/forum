@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"forum/pkg/auth"
 	"forum/pkg/db"
 	"forum/pkg/models"
@@ -15,13 +16,21 @@ func HandleCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	categoryID, err := extractID(r.URL.Path)
+	if err != nil {
+		// Handle the error, for example, return a 400 Bad Request
+		http.Error(w, "Invalid ID in URL", http.StatusBadRequest)
+		return
+	}
+	fmt.Println("category ID:", categoryID)
+
 	// Check all errors here and handle them i didnt do it @@@@
 	var allCategories []models.Category
 	allCategories, _ = db.GetAllCategories()
 
 	// Check all errors here and handle them i didnt do it @@@@
 	var allPosts []models.Post
-	allPosts, _ = db.GetAllPosts()
+	allPosts, _ = db.GetPostsByCategory(categoryID)
 
 	// User is authenticated
 	// Pass the session data to the template

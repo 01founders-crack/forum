@@ -87,7 +87,7 @@ func renderProfileTemplate(w http.ResponseWriter, tmpl string, data map[string]i
 	}
 }
 
-func extractPostID(path string) (int, error) {
+func extractID(path string) (int, error) {
 	parts := strings.Split(path, "/")
 	idStr := parts[len(parts)-1]
 
