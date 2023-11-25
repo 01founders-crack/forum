@@ -38,14 +38,26 @@ func AddPost(userID, categoryID int, content string, title string, img string) (
 }
 
 // GetPostsByCategory retrieves posts by category
-func GetPostsByCategory(categoryID int) (*sql.Rows, error) {
+func GetPostsByCategory(categoryID int) ([]models.Post, error) {
 	query := `SELECT * FROM posts WHERE category_id = ?`
 	rows, err := MyDBVar.Query(query, categoryID)
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close() // Ensure rows are closed after function exits
-	return rows, nil
+	defer rows.Close()
+
+	var posts []models.Post
+
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Img, &post.CategoryID)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+
+	return posts, nil
 }
 
 // GetAllPosts retrieves all posts
