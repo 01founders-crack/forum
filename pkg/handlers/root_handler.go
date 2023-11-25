@@ -4,6 +4,7 @@ import (
 	"forum/pkg/auth"
 	"forum/pkg/db"
 	"forum/pkg/models"
+	"log"
 	"net/http"
 )
 
@@ -23,6 +24,20 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 	var allPosts []models.Post
 	allPosts, _ = db.GetAllPosts()
 
+	likeCounts := make(map[int]int)
+
+	// Loop through all posts and count the number of likes for each post
+	for _, post := range allPosts {
+		postID := post.ID
+		likeCount, err := db.CountLikesByPost(postID)
+		if err != nil {
+			// Handle the error if necessary
+			log.Println("Error counting likes for post", postID, ":", err)
+			continue // Continue to the next iteration
+		}
+		likeCounts[postID] = likeCount
+	}
+
 	// User is authenticated
 	// Pass the session data to the template
 	data := map[string]interface{}{
@@ -31,6 +46,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		"IsHomePage":  true,
 		"Posts":       allPosts,
 		"Categories":  allCategories,
+		"Likes":       likeCounts,
 	}
 	renderTemplate(w, "index.html", data)
 }

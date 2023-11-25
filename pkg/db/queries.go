@@ -112,13 +112,28 @@ func GetCommentsByPost(postID int) (*sql.Rows, error) {
 // AddLike adds a new like to the likes table
 func AddLike(userID, postID int) (sql.Result, error) {
 	query := `INSERT INTO likes (user_id, post_id) VALUES (?, ?)`
+	result, err := MyDBVar.Exec(query, userID, postID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// RemoveLike removes a like from the likes table
+func RemoveLike(userID, postID int) (sql.Result, error) {
+	query := `DELETE FROM likes WHERE user_id = ? AND post_id = ?`
 	return MyDBVar.Exec(query, userID, postID)
 }
 
 // CountLikesByPost counts the number of likes for a specific post
-func CountLikesByPost(postID int) (*sql.Row, error) {
+func CountLikesByPost(postID int) (int, error) {
+	var count int
 	query := `SELECT COUNT(*) FROM likes WHERE post_id = ?`
-	return MyDBVar.QueryRow(query, postID), nil
+	err := MyDBVar.QueryRow(query, postID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
 
 // AddCategory adds a new category to the categories table

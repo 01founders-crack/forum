@@ -11,20 +11,20 @@
 </div>
 <div class="posts">
    <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
-{{ range .Posts }}
-<div class="post-display-box">
-    <h2>{{ .Title }}</h2>
-    <p>{{ .Content }}</p>
-    <textarea placeholder="Write a comment..."></textarea>
-    <div class="buttons-container">
-        <button type="button">Submit Comment</button>
-        <div class="like-dislike-buttons">
-            <button type="button">Like</button><span> 0</span>
-            <button type="button">Dislike</button><span> 0</span>
-        </div>
-    </div>
-</div>
-{{ end }}
+   {{ range .Posts }}
+   <div class="post-display-box">
+       <h2>{{ .Title }}</h2>
+       <p>{{ .Content }}</p>
+       <textarea placeholder="Write a comment..."></textarea>
+       <div class="buttons-container">
+           <button type="button">Submit Comment</button>
+           <div class="like-dislike-buttons">
+               <button type="button">Like</button><span> {{ index $.Likes .ID }}</span>
+               <button type="button">Dislike</button><span> 0</span>
+           </div>
+       </div>
+   </div>
+   {{ end }}
 </div>
 </section>
 
