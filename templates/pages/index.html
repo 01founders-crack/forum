@@ -6,7 +6,7 @@
 <div class="left-container">
     <h2>Categories</h2>
     {{ range .Categories }}
-    <button>{{.Name}}</button>
+    <button onclick="redirectToCategory('{{.ID}}')">{{.Name}}</button>
     {{ end }}
 </div>
 <div class="posts">
@@ -28,5 +28,11 @@
 </div>
 </section>
 
+<!-- Add this into js file -->
+<script>
+    function redirectToCategory(categoryId) {
+        window.location.href = "/category/" + categoryId;
+    }
+</script>
 
 {{end}}
