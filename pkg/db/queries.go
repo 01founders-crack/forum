@@ -40,7 +40,35 @@ func AddPost(userID, categoryID int, content string, title string, img string) (
 // GetPostsByCategory retrieves posts by category
 func GetPostsByCategory(categoryID int) (*sql.Rows, error) {
 	query := `SELECT * FROM posts WHERE category_id = ?`
-	return MyDBVar.Query(query, categoryID)
+	rows, err := MyDBVar.Query(query, categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close() // Ensure rows are closed after function exits
+	return rows, nil
+}
+
+// GetAllPosts retrieves all posts
+func GetAllPosts() ([]models.Post, error) {
+	query := `SELECT * FROM posts`
+	rows, err := MyDBVar.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []models.Post
+
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Img, &post.CategoryID)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+
+	return posts, nil
 }
 
 // AddComment adds a new comment to the comments table

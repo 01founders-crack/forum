@@ -5,74 +5,26 @@
 <section class="s1">
 <div class="left-container">
     <h2>Categories</h2>
-    <button>Sports</button>
-    <button>Music</button>
-    <button>Technology</button>
-    <button>Crypto</button>
-    <button>Gaming</button>
-    <button>Movies</button>
+    {{ range .Categories }}
+    <button>{{.Name}}</button>
+    {{ end }}
 </div>
 <div class="posts">
-    <div class="post-display-box">
-        <h2>Post Title 1</h2>
-        <p>Post Content 1</p>
-        <textarea placeholder="Write a comment..."></textarea>
-        <div class="buttons-container">
-            <button type="button">Submit Comment</button>
-            <div class="like-dislike-buttons">
-                <button type="button">Like</button><span> 0</span>
-                <button type="button">Dislike</button><span> 0</span>
-            </div>
+   <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
+{{ range .Posts }}
+<div class="post-display-box">
+    <h2>{{ .Title }}</h2>
+    <p>{{ .Content }}</p>
+    <textarea placeholder="Write a comment..."></textarea>
+    <div class="buttons-container">
+        <button type="button">Submit Comment</button>
+        <div class="like-dislike-buttons">
+            <button type="button">Like</button><span> 0</span>
+            <button type="button">Dislike</button><span> 0</span>
         </div>
     </div>
-    <div class="post-display-box">
-        <h2>Post Title 2</h2>
-        <p>Post Content 2</p>
-        <textarea placeholder="Write a comment..."></textarea>
-        <div class="buttons-container">
-            <button type="button">Submit Comment</button>
-            <div class="like-dislike-buttons">
-                <button type="button">Like</button><span> 0</span>
-                <button type="button">Dislike</button><span> 0</span>
-            </div>
-        </div>
-    </div>
-    <div class="post-display-box">
-        <h2>Post Title 3</h2>
-        <p>Post Content 3</p>
-        <textarea placeholder="Write a comment..."></textarea>
-        <div class="buttons-container">
-            <button type="button">Submit Comment</button>
-            <div class="like-dislike-buttons">
-                <button type="button">Like</button><span> 0</span>
-                <button type="button">Dislike</button><span> 0</span>
-            </div>
-        </div>
-    </div>
-    <div class="post-display-box">
-        <h2>Post Title 4</h2>
-        <p>Post Content 4</p>
-        <textarea placeholder="Write a comment..."></textarea>
-        <div class="buttons-container">
-            <button type="button">Submit Comment</button>
-            <div class="like-dislike-buttons">
-                <button type="button">Like</button><span> 0</span>
-                <button type="button">Dislike</button><span> 0</span>
-            </div>
-        </div>
-    </div>
-    <div class="post-display-box">
-        <h2>Post Title 5</h2>
-        <p>Post Content 5</p>
-        <textarea placeholder="Write a comment..."></textarea>
-        <div class="buttons-container">
-            <button type="button">Submit Comment</button>
-            <div class="like-dislike-buttons">
-                <button type="button">Like</button><span> 0</span>
-                <button type="button">Dislike</button><span> 0</span>
-            </div>
-        </div>
-    </div>
+</div>
+{{ end }}
 </div>
 </section>
 
