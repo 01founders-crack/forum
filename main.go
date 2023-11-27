@@ -42,9 +42,6 @@ func main() {
 	// Handler for a sample post page
 	mux.HandleFunc("/post/", handlers.HandlePost)
 
-	// Handler for a category page
-	mux.HandleFunc("/category/", handlers.HandleCategory)
-
 	// tempHandler for a user check their own profile page, Hard coding!!!!Need to change later!!!!!
 	mux.HandleFunc("/user/loki", handlers.HandleOwnProfile)
 

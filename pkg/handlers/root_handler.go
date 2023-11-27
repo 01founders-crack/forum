@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"forum/pkg/auth"
 	"forum/pkg/db"
 	"forum/pkg/models"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
@@ -16,18 +18,70 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Declare variables for the presence of specific query parameters
+	var (
+		categoryIDExists bool
+		likesExist       bool
+		commentsExist    bool
+	)
+
+	// Check if specific query parameters exist
+	if _, ok := r.URL.Query()["category_id"]; ok {
+		categoryIDExists = true
+		fmt.Println("category_id exists")
+	}
+
+	if _, ok := r.URL.Query()["likes"]; ok {
+		likesExist = true
+		fmt.Println("likes exists")
+	}
+
+	if _, ok := r.URL.Query()["comments"]; ok {
+		commentsExist = true
+		fmt.Println("comments exists")
+	}
+
+	// Declare a variable to hold posts
+	var posts []models.Post
+
 	// Check all errors here and handle them i didnt do it @@@@
 	var allCategories []models.Category
 	allCategories, _ = db.GetAllCategories()
 
-	// Check all errors here and handle them i didnt do it @@@@
-	var allPosts []models.Post
-	allPosts, _ = db.GetAllPosts()
+	if categoryIDExists || likesExist || commentsExist {
+		// If any of the query parameters exist, use filtered posts
+		intCategoryID := 0
+		if categoryIDExists {
+			categoryID := r.URL.Query().Get("category_id")
+			var err error
+			intCategoryID, err = strconv.Atoi(categoryID)
+			if err != nil {
+				renderTemplate(w, "404.html", nil)
+				return
+			}
+			fmt.Println("category ID:", intCategoryID)
+		}
+
+		// Get filtered posts
+		filteredPosts, err := db.GetPostsByFilters(intCategoryID, likesExist, commentsExist, session.Values["username"].(string))
+		if err != nil {
+			// Handle the error appropriately, such as logging or returning an error response to the client
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		// Use filtered posts
+		posts = filteredPosts
+	} else {
+		// If no query parameters, get all posts
+		var allPosts []models.Post
+		allPosts, _ = db.GetAllPosts()
+		posts = allPosts
+	}
 
 	likeCounts := make(map[int]int)
-
 	// Loop through all posts and count the number of likes for each post
-	for _, post := range allPosts {
+	for _, post := range posts {
 		postID := post.ID
 		likeCount, err := db.CountLikesByPost(postID)
 		if err != nil {
@@ -44,7 +98,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		"Title":       "Home Page",
 		"SessionData": session.Values,
 		"IsHomePage":  true,
-		"Posts":       allPosts,
+		"Posts":       posts,
 		"Categories":  allCategories,
 		"Likes":       likeCounts,
 	}

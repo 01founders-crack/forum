@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"forum/pkg/models"
+	"strings"
 )
 
 // AddUser adds a new user to the users table
@@ -175,4 +176,56 @@ func GetCategoryIDByName(name string) (int, error) {
 		return 0, err
 	}
 	return id, nil
+}
+
+// GetPostsByFilters retrieves posts based on specified filters
+func GetPostsByFilters(categoryID int, likesExist bool, commentsExist bool, username string) ([]models.Post, error) {
+	// Base query to retrieve posts
+	baseQuery := `SELECT * FROM posts`
+
+	// Conditions for filters
+	var conditions []string
+	var args []interface{}
+
+	// Check if a category filter is specified
+	if categoryID != 0 {
+		conditions = append(conditions, `category_id = ?`)
+		args = append(args, categoryID)
+	}
+
+	// Add additional filters based on likes and comments
+	if likesExist {
+		conditions = append(conditions, `EXISTS (SELECT 1 FROM likes WHERE posts.id = likes.post_id AND likes.user_id = (SELECT id FROM users WHERE username = ?))`)
+		args = append(args, username)
+	}
+
+	if commentsExist {
+		conditions = append(conditions, `EXISTS (SELECT 1 FROM comments WHERE posts.id = comments.post_id AND comments.user_id = (SELECT id FROM users WHERE username = ?))`)
+		args = append(args, username)
+	}
+
+	// Construct the final query
+	query := baseQuery
+	if len(conditions) > 0 {
+		query += " WHERE " + strings.Join(conditions, " AND ")
+	}
+
+	rows, err := MyDBVar.Query(query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("error executing query: %v", err)
+	}
+	defer rows.Close()
+
+	var posts []models.Post
+
+	for rows.Next() {
+		var post models.Post
+		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Img, &post.CategoryID)
+		if err != nil {
+			return nil, fmt.Errorf("error scanning row: %v", err)
+		}
+		posts = append(posts, post)
+	}
+
+	return posts, nil
 }
