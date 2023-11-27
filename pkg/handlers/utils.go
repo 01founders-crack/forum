@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"forum/pkg/auth"
+	"forum/pkg/db"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -99,4 +101,108 @@ func extractID(path string) (int, error) {
 	}
 
 	return id, nil
+}
+
+// HandleLikePost handles the liking of a post.
+func HandleLikePost(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Check if the user is logged in
+	session, err := auth.Store.Get(r, "user-session")
+	if err != nil || session.Values["user_id"] == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	userID := session.Values["user_id"].(int) // Assuming user_id is stored as an int
+
+	postID, err := strconv.Atoi(r.FormValue("post_id"))
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	// Add logic to handle liking the post (e.g., update the database)
+	// For simplicity, let's assume you have a function in the db package to handle likes
+	_, err = db.AddLike(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to like the post", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect back to the main page or the post's page
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+// HandleDislikePost handles the disliking of a post.
+func HandleDislikePost(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Check if the user is logged in
+	session, err := auth.Store.Get(r, "user-session")
+	if err != nil || session.Values["user_id"] == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	userID := session.Values["user_id"].(int) // Assuming user_id is stored as an int
+
+	postID, err := strconv.Atoi(r.FormValue("post_id"))
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	// Add logic to handle disliking the post (e.g., update the database)
+	// For simplicity, let's assume you have a function in the db package to handle dislikes
+	_, err = db.RemoveLike(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to dislike the post", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect back to the main page or the post's page
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+// HandleSubmitComment handles the submission of a comment.
+func HandleSubmitComment(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Check if the user is logged in
+	session, err := auth.Store.Get(r, "user-session")
+	if err != nil || session.Values["user_id"] == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	userID := session.Values["user_id"].(int) // Assuming user_id is stored as an int
+
+	postID, err := strconv.Atoi(r.FormValue("post_id"))
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	comment := r.FormValue("comment")
+
+	// Add logic to handle submitting the comment (e.g., update the database)
+	// For simplicity, let's assume you have a function in the db package to handle comments
+	_, err = db.AddComment(userID, postID, comment)
+	if err != nil {
+		http.Error(w, "Failed to submit the comment", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect back to the main page or the post's page
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

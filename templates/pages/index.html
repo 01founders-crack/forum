@@ -3,35 +3,43 @@
 
 <!-- Left Side Container -->
 <section class="s1">
-<div class="left-container">
-    <h2>Categories</h2>
-    {{ range .Categories }}
-    <button onclick="redirectToCategory('{{.ID}}')">{{.Name}}</button>
-    {{ end }}
-</div>
-<div class="posts">
-   <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
-   {{ range .Posts }}
-   <div class="post-display-box">
-       <h2>{{ .Title }}</h2>
-       <p>{{ .Content }}</p>
-       <textarea placeholder="Write a comment..."></textarea>
-       <div class="buttons-container">
-           <button type="button">Submit Comment</button>
-           <div class="like-dislike-buttons">
-               <button type="button">Like</button><span> {{ index $.Likes .ID }}</span>
-               <button type="button">Dislike</button><span> 0</span>
-           </div>
-       </div>
-   </div>
-   {{ end }}
-</div>
+    <div class="left-container">
+        <h2>Categories</h2>
+        {{ range .Categories }}
+        <button onclick="redirectToCategory('{{.ID}}')">{{.Name}}</button>
+        {{ end }}
+    </div>
+    <div class="posts">
+        <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
+        {{ range .Posts }}
+        <div class="post-display-box">
+            <h2>{{ .Title }}</h2>
+            <p>{{ .Content }}</p>
+            <form method="post" action="/submit-comment">
+                <textarea placeholder="Write a comment..." name="comment"></textarea>
+                <input type="hidden" name="post_id" value="{{.ID}}">
+                <button type="submit">Submit Comment</button>
+            </form>
+            <div class="buttons-container">
+                <form method="post" action="/like-post">
+                    <input type="hidden" name="post_id" value="{{.ID}}">
+                    <button type="submit">Like</button><span>{{ index $.Likes .ID }}</span>
+                </form>
+                <form method="post" action="/dislike-post">
+                    <input type="hidden" name="post_id" value="{{.ID}}">
+                    <button type="submit">Dislike</button><span> 0</span>
+                </form>
+            </div>
+        </div>
+        {{ end }}
+    </div>
 </section>
+
 
 <!-- Add this into js file -->
 <script>
     function redirectToCategory(categoryId) {
-        window.location.href = "/category/" + categoryId;
+        window.location.href = "?category_id=" + categoryId;
     }
 </script>
 

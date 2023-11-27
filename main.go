@@ -48,6 +48,11 @@ func main() {
 	// tempHandler for a user check other user's profile page, Hard coding!!!!Need to change later!!!!
 	mux.HandleFunc("/user/Darcy", handlers.HandleOtherProfile)
 
+	// Add the new routes here
+	mux.HandleFunc("/like-post", middleware.Auth(handlers.HandleLikePost))
+	mux.HandleFunc("/dislike-post", middleware.Auth(handlers.HandleDislikePost))
+	mux.HandleFunc("/submit-comment", middleware.Auth(handlers.HandleSubmitComment))
+
 	// Create an HTTP server with the chosen address and ServeMux
 	server := &http.Server{
 		Addr:    ":8080", // Listen on port 8080
