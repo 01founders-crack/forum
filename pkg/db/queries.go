@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"forum/pkg/models"
 	"strings"
@@ -111,18 +112,76 @@ func GetCommentsByPost(postID int) (*sql.Rows, error) {
 }
 
 // AddLike adds a new like to the likes table
+// AddLike adds a new like to the likes table if the user has not already liked the post
 func AddLike(userID, postID int) (sql.Result, error) {
+	// Check if the user has already liked the post
+	hasLiked, err := HasUserLikedPost(userID, postID)
+	if err != nil {
+		return nil, err
+	}
+	if hasLiked {
+		return nil, errors.New("user has already liked this post")
+	}
+
+	// If the user hasn't already liked the post, add the like
 	query := `INSERT INTO likes (user_id, post_id) VALUES (?, ?)`
-	result, err := MyDBVar.Exec(query, userID, postID)
+	result, err := GetDB().Exec(query, userID, postID)
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
 }
 
+// AddDislike adds a new dislike to the dislikes table and updates the dislike count for the post
+func AddDislike(userID, postID int) (sql.Result, error) {
+	// Check if the user has already disliked the post
+	hasLiked, err := HasUserDislikedPost(userID, postID)
+	if err != nil {
+		return nil, err
+	}
+	if hasLiked {
+		return nil, errors.New("user has already disliked this post")
+	}
+
+	// If the user hasn't already liked the post, add the like
+	query := `INSERT INTO dislikes (user_id, post_id) VALUES (?, ?)`
+	result, err := GetDB().Exec(query, userID, postID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// HasUserLikedPost checks if a user has liked a specific post
+func HasUserLikedPost(userID, postID int) (bool, error) {
+	query := `SELECT COUNT(*) FROM likes WHERE user_id = ? AND post_id = ?`
+	var count int
+	err := GetDB().QueryRow(query, userID, postID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// HasUserDislikedPost checks if a user has already disliked a specific post
+func HasUserDislikedPost(userID, postID int) (bool, error) {
+	query := `SELECT COUNT(*) FROM dislikes WHERE user_id = ? AND post_id = ?`
+	var count int
+	err := GetDB().QueryRow(query, userID, postID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
 // RemoveLike removes a like from the likes table
 func RemoveLike(userID, postID int) (sql.Result, error) {
 	query := `DELETE FROM likes WHERE user_id = ? AND post_id = ?`
+	return MyDBVar.Exec(query, userID, postID)
+}
+
+func RemoveDislike(userID, postID int) (sql.Result, error) {
+	query := `DELETE FROM dislikes WHERE user_id = ? AND post_id = ?`
 	return MyDBVar.Exec(query, userID, postID)
 }
 

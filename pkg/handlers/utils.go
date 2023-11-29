@@ -125,7 +125,23 @@ func HandleLikePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Add logic to handle liking the post (e.g., update the database)
+	// Check if the user has previously disliked the post
+	hasDisliked, err := db.HasUserDislikedPost(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to check previous dislike status", http.StatusInternalServerError)
+		return
+	}
+
+	// Remove the dislike if the user had previously disliked the post
+	if hasDisliked {
+		_, err = db.RemoveDislike(userID, postID) // You need to implement RemoveDislike function
+		if err != nil {
+			http.Error(w, "Failed to remove the previous dislike", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	// Add logic to handle liking the post (e.g., update the database for like)
 	// For simplicity, let's assume you have a function in the db package to handle likes
 	_, err = db.AddLike(userID, postID)
 	if err != nil {
@@ -159,9 +175,25 @@ func HandleDislikePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Add logic to handle disliking the post (e.g., update the database)
+	// Check if the user has previously liked the post
+	hasLiked, err := db.HasUserLikedPost(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to check previous like status", http.StatusInternalServerError)
+		return
+	}
+
+	// Remove the like if the user had previously liked the post
+	if hasLiked {
+		_, err = db.RemoveLike(userID, postID)
+		if err != nil {
+			http.Error(w, "Failed to remove the previous like", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	// Add logic to handle disliking the post (e.g., update the database for dislike)
 	// For simplicity, let's assume you have a function in the db package to handle dislikes
-	_, err = db.RemoveLike(userID, postID)
+	_, err = db.AddDislike(userID, postID)
 	if err != nil {
 		http.Error(w, "Failed to dislike the post", http.StatusInternalServerError)
 		return
