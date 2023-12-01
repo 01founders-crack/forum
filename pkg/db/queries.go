@@ -196,6 +196,17 @@ func CountLikesByPost(postID int) (int, error) {
 	return count, nil
 }
 
+// CountDisLikesByPost counts the number of likes for a specific post
+func CountDisLikesByPost(postID int) (int, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM dislikes WHERE post_id = ?`
+	err := MyDBVar.QueryRow(query, postID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 // AddCategory adds a new category to the categories table
 func AddCategory(name string) (sql.Result, error) {
 	query := `INSERT INTO categories (name) VALUES (?)`

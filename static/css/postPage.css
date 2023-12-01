@@ -55,3 +55,50 @@ body {
     display: flex;
     gap: 10px;
 }
+
+.comments-container {
+    background-color: #1A1A1B;
+    color: #D7DADC;
+    border: 1px solid #343536;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.post-display-box, .comment {
+    background-color: #1A1A1B;
+    color: #D7DADC;
+    border: 1px solid #343536;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+    margin: 0 auto;
+}
+
+.comment {
+    border-bottom: 1px solid #343536;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.post-display-box h2, .comment h3 {
+    color: #D7DADC;
+    margin-bottom: 4px;
+}
+
+.post-display-box p, .comment p {
+    color: #B3B3B3;
+}
+
+.comment button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: orangered;
+    color: white;
+    cursor: pointer;
+}

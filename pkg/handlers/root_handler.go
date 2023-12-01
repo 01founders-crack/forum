@@ -92,6 +92,19 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		likeCounts[postID] = likeCount
 	}
 
+	dislikeCounts := make(map[int]int)
+	// Loop through all posts and count the number of likes for each post
+	for _, post := range posts {
+		postID := post.ID
+		dislikeCount, err := db.CountDisLikesByPost(postID)
+		if err != nil {
+			// Handle the error if necessary
+			log.Println("Error counting likes for post", postID, ":", err)
+			continue // Continue to the next iteration
+		}
+		dislikeCounts[postID] = dislikeCount
+	}
+
 	// User is authenticated
 	// Pass the session data to the template
 	data := map[string]interface{}{
@@ -101,6 +114,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		"Posts":       posts,
 		"Categories":  allCategories,
 		"Likes":       likeCounts,
+		"Dislikes":    dislikeCounts,
 	}
 	renderTemplate(w, "index.html", data)
 }
