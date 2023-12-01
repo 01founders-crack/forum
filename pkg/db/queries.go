@@ -254,9 +254,13 @@ func GetPostsByFilters(categoryID int, likesExist bool, commentsExist bool, user
 
 	// Add additional filters based on likes and comments
 	if likesExist {
-		conditions = append(conditions, `EXISTS (SELECT 1 FROM likes WHERE posts.id = likes.post_id AND likes.user_id = (SELECT id FROM users WHERE username = ?))`)
+		// Add a condition to filter by liked posts
+		conditions = append(conditions, `EXISTS (SELECT 1 FROM likes WHERE posts.id = likes.post_id AND likes.user_id = (SELECT id FROM users WHERE username = ?) AND likes.post_id = posts.id)`)
 		args = append(args, username)
 	}
+
+	conditions = append(conditions, `user_id = (SELECT id FROM users WHERE username = ?)`)
+	args = append(args, username)
 
 	if commentsExist {
 		conditions = append(conditions, `EXISTS (SELECT 1 FROM comments WHERE posts.id = comments.post_id AND comments.user_id = (SELECT id FROM users WHERE username = ?))`)
