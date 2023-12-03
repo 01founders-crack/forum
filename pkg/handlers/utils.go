@@ -104,7 +104,80 @@ func extractID(path string) (int, error) {
 }
 
 // HandleLikePost handles the liking of a post.
+// HandleLikePost handles the liking of a post.
+// HandleLikePost handles the liking of a post.
 func HandleLikePost(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Check if the user is logged in
+	session, err := auth.Store.Get(r, "user-session")
+	if err != nil || session.Values["user_id"] == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	userID := session.Values["user_id"].(int) // Assuming user_id is stored as an int
+
+	postID, err := strconv.Atoi(r.FormValue("post_id"))
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	// Check if the user has previously liked the post
+	hasLiked, err := db.HasUserLikedPost(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to check previous like status", http.StatusInternalServerError)
+		return
+	}
+
+	// Remove the like if the user had previously liked the post
+	if hasLiked {
+		_, err = db.RemoveLike(userID, postID)
+		if err != nil {
+			http.Error(w, "Failed to remove the previous like", http.StatusInternalServerError)
+			return
+		}
+
+		// Redirect back to the main page or the post's page
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	// Check if the user has previously disliked the post
+	hasDisliked, err := db.HasUserDislikedPost(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to check previous dislike status", http.StatusInternalServerError)
+		return
+	}
+
+	// Remove the dislike if the user had previously disliked the post
+	if hasDisliked {
+		_, err = db.RemoveDislike(userID, postID)
+		if err != nil {
+			http.Error(w, "Failed to remove the previous dislike", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	// Add logic to handle liking the post (e.g., update the database for like)
+	// For simplicity, let's assume you have a function in the db package to handle likes
+	_, err = db.AddLike(userID, postID)
+	if err != nil {
+		http.Error(w, "Failed to like the post", http.StatusInternalServerError)
+		return
+	}
+
+	// Redirect back to the main page or the post's page
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+// HandleDislikePost handles the disliking of a post.
+// HandleDislikePost handles the disliking of a post.
+func HandleDislikePost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -134,44 +207,14 @@ func HandleLikePost(w http.ResponseWriter, r *http.Request) {
 
 	// Remove the dislike if the user had previously disliked the post
 	if hasDisliked {
-		_, err = db.RemoveDislike(userID, postID) // You need to implement RemoveDislike function
+		_, err = db.RemoveDislike(userID, postID)
 		if err != nil {
 			http.Error(w, "Failed to remove the previous dislike", http.StatusInternalServerError)
 			return
 		}
-	}
 
-	// Add logic to handle liking the post (e.g., update the database for like)
-	// For simplicity, let's assume you have a function in the db package to handle likes
-	_, err = db.AddLike(userID, postID)
-	if err != nil {
-		http.Error(w, "Failed to like the post", http.StatusInternalServerError)
-		return
-	}
-
-	// Redirect back to the main page or the post's page
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
-// HandleDislikePost handles the disliking of a post.
-func HandleDislikePost(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	// Check if the user is logged in
-	session, err := auth.Store.Get(r, "user-session")
-	if err != nil || session.Values["user_id"] == nil {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
-		return
-	}
-
-	userID := session.Values["user_id"].(int) // Assuming user_id is stored as an int
-
-	postID, err := strconv.Atoi(r.FormValue("post_id"))
-	if err != nil {
-		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		// Redirect back to the main page or the post's page
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
