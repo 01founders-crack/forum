@@ -32,10 +32,38 @@ func HandlePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Fetch like and dislike counts for the post
+	post.LikeCount, err = db.CountLikesByPost(post.ID)
+	if err != nil {
+		// Handle the error
+		log.Fatal("Error counting likes for post: ", err)
+	}
+
+	post.DislikeCount, err = db.CountDisLikesByPost(post.ID)
+	if err != nil {
+		// Handle the error
+		log.Fatal("Error counting dislikes for post: ", err)
+	}
+
 	comments, err := db.GetCommentsByPost(postID)
 	if err != nil {
 		// Handle the error
 		log.Fatal("Error retrieving comments: ", err)
+	}
+
+	// Fetch like and dislike counts for each comment
+	for i := range comments {
+		comments[i].LikeCount, err = db.CountLikesByComment(comments[i].ID)
+		if err != nil {
+			// Handle the error
+			log.Fatal("Error counting likes for comment: ", err)
+		}
+
+		comments[i].DislikeCount, err = db.CountDislikesByComment(comments[i].ID)
+		if err != nil {
+			// Handle the error
+			log.Fatal("Error counting dislikes for comment: ", err)
+		}
 	}
 
 	data := map[string]interface{}{
