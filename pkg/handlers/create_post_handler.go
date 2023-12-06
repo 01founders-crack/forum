@@ -34,6 +34,17 @@ func HandleCreatePostPage(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Session expired", http.StatusUnauthorized)
 			return
 		}
+		if content == "" || title == "" || category == "" {
+			// If the form submission is invalid, set an error message
+			session.Values["notification"] = "Invalid form submission"
+			// Save the session
+			// session.Save(r, w)
+
+			// Redirect back to the create post page
+			http.Redirect(w, r, "/create_post", http.StatusSeeOther)
+			return
+
+		}
 
 		if r.Form.Get("img") != "" {
 			img = r.Form.Get("img")
