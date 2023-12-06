@@ -269,6 +269,11 @@ func HandleSubmitComment(w http.ResponseWriter, r *http.Request) {
 	}
 
 	comment := r.FormValue("comment")
+	if comment == "" {
+		http.Error(w, "Invalid comment", http.StatusBadRequest)
+		return
+
+	}
 
 	// Add logic to handle submitting the comment (e.g., update the database)
 	// For simplicity, let's assume you have a function in the db package to handle comments
