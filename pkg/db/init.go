@@ -129,6 +129,20 @@ CREATE TABLE IF NOT EXISTS comment_dislikes (
 	if err != nil {
 		log.Fatal("Could not create comment_dislikes table: ", err)
 	}
+
+	// Create PostCategories Table
+	createPostCategoriesTable := `
+CREATE TABLE IF NOT EXISTS post_categories (
+    post_id INTEGER,
+    category_id INTEGER,
+    FOREIGN KEY (post_id) REFERENCES posts (id),
+    FOREIGN KEY (category_id) REFERENCES categories (id),
+    PRIMARY KEY (post_id, category_id)
+);`
+	_, err = MyDBVar.Exec(createPostCategoriesTable)
+	if err != nil {
+		log.Fatal("Could not create post_categories table: ", err)
+	}
 }
 
 // GetDB returns the database instance

@@ -6,14 +6,12 @@
         <input type="text" id="title" name="title"><br>
         <label for="content">Content:</label><br>
         <textarea id="content" name="content"></textarea><br>
-        <label for="category">Category:</label><br>
-        <select id="category" name="category" required>
-            <option value="">Select a category</option>
+        <label for="category">Categories:</label><br>
+        <select id="category" name="category" multiple>
             {{range .Categories}}
-            <option value="{{.Name}}">{{.Name}}</option>
+            <option value="{{.ID}}">{{.Name}}</option>
             {{end}}
-            <!-- Add more categories as needed -->
-        </select><br>
+        </select><br>        
         <label for="img">Image:</label><br>
         <input type="text" id="img" name="img" value="placeholder"><br>
         <input type="submit" value="Submit">

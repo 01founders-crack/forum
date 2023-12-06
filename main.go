@@ -50,6 +50,8 @@ func main() {
 
 	// Add the new routes here
 	mux.HandleFunc("/like-post", middleware.Auth(handlers.HandleLikePost))
+	mux.HandleFunc("/like-comment", middleware.Auth(handlers.HandleLikeComment))
+	mux.HandleFunc("/dislike-comment", middleware.Auth(handlers.HandleDislikeComment))
 	mux.HandleFunc("/dislike-post", middleware.Auth(handlers.HandleDislikePost))
 	mux.HandleFunc("/submit-comment", middleware.Auth(handlers.HandleSubmitComment))
 
