@@ -268,8 +268,19 @@ func GetCategoryIDByName(name string) (int, error) {
 	return id, nil
 }
 
+// GetUserIDByUsername retrieves the user ID by username
+func GetUserIDByUsername(username string) (int, error) {
+	query := `SELECT id FROM users WHERE username = ?`
+	var userID int
+	err := MyDBVar.QueryRow(query, username).Scan(&userID)
+	if err != nil {
+		return 0, err
+	}
+	return userID, nil
+}
+
 // GetPostsByFilters retrieves posts based on specified filters
-func GetPostsByFilters(categoryID int, likesExist bool, commentsExist bool, username string) ([]models.Post, error) {
+func GetPostsByFilters(categoryID int, likesExist bool, postsByUser bool, userID int) ([]models.Post, error) {
 	// Base query to retrieve posts
 	baseQuery := `SELECT * FROM posts`
 
@@ -283,19 +294,16 @@ func GetPostsByFilters(categoryID int, likesExist bool, commentsExist bool, user
 		args = append(args, categoryID)
 	}
 
-	// Add additional filters based on likes and comments
+	// Add additional filters based on likes and postsByUser
 	if likesExist {
 		// Add a condition to filter by liked posts
-		conditions = append(conditions, `EXISTS (SELECT 1 FROM likes WHERE posts.id = likes.post_id AND likes.user_id = (SELECT id FROM users WHERE username = ?) AND likes.post_id = posts.id)`)
-		args = append(args, username)
+		conditions = append(conditions, `EXISTS (SELECT 1 FROM likes WHERE posts.id = likes.post_id AND likes.user_id = ? AND likes.post_id = posts.id)`)
+		args = append(args, userID)
 	}
 
-	conditions = append(conditions, `user_id = (SELECT id FROM users WHERE username = ?)`)
-	args = append(args, username)
-
-	if commentsExist {
-		conditions = append(conditions, `EXISTS (SELECT 1 FROM comments WHERE posts.id = comments.post_id AND comments.user_id = (SELECT id FROM users WHERE username = ?))`)
-		args = append(args, username)
+	if postsByUser {
+		conditions = append(conditions, `user_id = ?`)
+		args = append(args, userID)
 	}
 
 	// Construct the final query

@@ -22,7 +22,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 	var (
 		categoryIDExists bool
 		likesExist       bool
-		commentsExist    bool
+		postsByUser      bool
 	)
 
 	// Check if specific query parameters exist
@@ -36,8 +36,8 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("likes exists")
 	}
 
-	if _, ok := r.URL.Query()["comments"]; ok {
-		commentsExist = true
+	if _, ok := r.URL.Query()["created"]; ok {
+		postsByUser = true
 		fmt.Println("comments exists")
 	}
 
@@ -48,7 +48,9 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 	var allCategories []models.Category
 	allCategories, _ = db.GetAllCategories()
 
-	if categoryIDExists || likesExist || commentsExist {
+	if categoryIDExists || likesExist || postsByUser {
+		// If any of the query parameters exist, use filtered posts
+		userIDm, _ := db.GetUserIDByUsername(session.Values["username"].(string)) // Get user ID
 		// If any of the query parameters exist, use filtered posts
 		intCategoryID := 0
 		if categoryIDExists {
@@ -63,7 +65,7 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Get filtered posts
-		filteredPosts, err := db.GetPostsByFilters(intCategoryID, likesExist, commentsExist, session.Values["username"].(string))
+		filteredPosts, err := db.GetPostsByFilters(intCategoryID, likesExist, postsByUser, userIDm)
 		if err != nil {
 			// Handle the error appropriately, such as logging or returning an error response to the client
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
