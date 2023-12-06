@@ -5,7 +5,7 @@
 </head>
 <!-- Left Side Container -->
 <div class="posts">
-   <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
+   <!-- Assuming you have a variable named 'post' of type models.Post in your Go code -->
    <div class="post-display-box">
     <h2>{{ .Post.Title }}</h2>
     <p>{{ .Post.Content }}</p>
@@ -13,14 +13,19 @@
     <div class="buttons-container">
         <button type="button">Submit Comment</button>
         <div class="like-dislike-buttons">
-            <button type="button">Like</button><span> 0</span>
-            <button type="button">Dislike</button><span> 0</span>
+            <form method="post" action="/like-post">
+                <input type="hidden" name="post_id" value="{{ .Post.ID }}">
+                <button type="submit">Like</button><span>0</span>
+            </form>
+            <form method="post" action="/dislike-post">
+                <input type="hidden" name="post_id" value="{{ .Post.ID }}">
+                <button type="submit">Dislike</button><span>0</span>
+            </form>
         </div>
     </div>
 </div>
 </div>
 
-<!-- Comments -->
 <!-- Comments -->
 <div class="comments-container">
     {{range .Comments}}
@@ -36,5 +41,4 @@
     <!-- Add more dummy comments as needed -->
 </div>
 </section>
-
 {{end}}
