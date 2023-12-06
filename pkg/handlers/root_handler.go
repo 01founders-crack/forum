@@ -50,7 +50,16 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 
 	if categoryIDExists || likesExist || postsByUser {
 		// If any of the query parameters exist, use filtered posts
-		userIDm, _ := db.GetUserIDByUsername(session.Values["username"].(string)) // Get user ID
+		if session.Values["username"] == nil {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
+		userIDm, err := db.GetUserIDByUsername(session.Values["username"].(string)) // Get user ID
+		if err != nil {
+			// Handle the error appropriately, such as logging or returning an error response to the client
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
 		// If any of the query parameters exist, use filtered posts
 		intCategoryID := 0
 		if categoryIDExists {
@@ -106,7 +115,6 @@ func HandleRoot(w http.ResponseWriter, r *http.Request) {
 		}
 		dislikeCounts[postID] = dislikeCount
 	}
-
 	// User is authenticated
 	// Pass the session data to the template
 	data := map[string]interface{}{
