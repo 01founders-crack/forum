@@ -33,12 +33,17 @@
         <h3>User ID: {{ .UserID }}</h3>
         <p>{{ .Content }}</p>
         <div class="like-dislike-buttons">
-            <button type="button">Like</button><span> 0</span>
-            <button type="button">Dislike</button><span> 0</span>
+            <form method="post" action="/like-comment">
+                <input type="hidden" name="comment_id" value="{{ .ID }}">
+                <button type="submit">Like</button><span> 0</span>
+            </form>
+            <form method="post" action="/dislike-comment">
+                <input type="hidden" name="comment_id" value="{{ .ID }}">
+                <button type="submit">Dislike</button><span> 0</span>
+            </form>
         </div>
     </div>
     {{end}}
-    <!-- Add more dummy comments as needed -->
 </div>
 </section>
 {{end}}

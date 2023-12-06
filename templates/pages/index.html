@@ -2,7 +2,9 @@
 {{define "content"}}
 
 <!-- Left Side Container -->
+
 <section class="s1">
+    {{if .SessionData.authenticated}}
     <div class="left-container">
 <!-- Categories Dropdown -->
 <div class="dropdown-container">
@@ -23,9 +25,9 @@
             <input type="checkbox" id="checkbox2">
             <label for="checkbox2">Created Posts</label>
         </div>
-
         <button id="applyButton" onclick="applySelection()">Apply</button>
     </div>
+    {{end}}
     <div class="posts">
         <!-- Assuming you have a variable named 'posts' of type []models.Post in your Go code -->
         {{ range .Posts }}
