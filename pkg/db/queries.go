@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"forum/pkg/models"
+	"log"
 	"strings"
 )
 
@@ -105,10 +106,29 @@ func AddComment(userID, postID int, content string) (sql.Result, error) {
 	return MyDBVar.Exec(query, userID, postID, content)
 }
 
-// GetCommentsByPost retrieves comments by post
-func GetCommentsByPost(postID int) (*sql.Rows, error) {
+// GetCommentsByPost retrieves comments by post and returns them as a slice of Comment
+func GetCommentsByPost(postID int) ([]models.Comment, error) {
 	query := `SELECT * FROM comments WHERE post_id = ?`
-	return MyDBVar.Query(query, postID)
+	rows, err := MyDBVar.Query(query, postID)
+	if err != nil {
+		log.Fatal("Error executing query: ", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var comments []models.Comment
+
+	for rows.Next() {
+		var comment models.Comment
+		err := rows.Scan(&comment.ID, &comment.UserID, &comment.PostID, &comment.Content)
+		if err != nil {
+			log.Fatal("Error scanning row: ", err)
+			return nil, err
+		}
+		comments = append(comments, comment)
+	}
+
+	return comments, nil
 }
 
 // AddLike adds a new like to the likes table

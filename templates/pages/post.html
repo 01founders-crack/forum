@@ -23,22 +23,16 @@
 <!-- Comments -->
 <!-- Comments -->
 <div class="comments-container">
+    {{range .Comments}}
     <div class="comment">
-        <h3>Dummy Author 1</h3>
-        <p>Dummy comment 1...</p>
+        <h3>User ID: {{ .UserID }}</h3>
+        <p>{{ .Content }}</p>
         <div class="like-dislike-buttons">
             <button type="button">Like</button><span> 0</span>
             <button type="button">Dislike</button><span> 0</span>
         </div>
     </div>
-    <div class="comment">
-        <h3>Dummy Author 2</h3>
-        <p>Dummy comment 2...</p>
-        <div class="like-dislike-buttons">
-            <button type="button">Like</button><span> 0</span>
-            <button type="button">Dislike</button><span> 0</span>
-        </div>
-    </div>
+    {{end}}
     <!-- Add more dummy comments as needed -->
 </div>
 </section>
