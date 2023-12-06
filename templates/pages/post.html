@@ -9,9 +9,12 @@
    <div class="post-display-box">
     <h2>{{ .Post.Title }}</h2>
     <p>{{ .Post.Content }}</p>
-    <textarea placeholder="Write a comment..."></textarea>
     <div class="buttons-container">
-        <button type="button">Submit Comment</button>
+            <form method="post" action="/submit-comment">
+                <input type="hidden" name="post_id" value="{{ .Post.ID }}">
+                <textarea placeholder="Write a comment..." name="comment"></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
         <div class="like-dislike-buttons">
             <form method="post" action="/like-post">
                 <input type="hidden" name="post_id" value="{{ .Post.ID }}">
