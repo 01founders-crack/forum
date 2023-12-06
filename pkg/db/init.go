@@ -101,6 +101,34 @@ func InitDB() {
 	if err != nil {
 		log.Fatal("Could not create dislikes table: ", err)
 	}
+
+	// Create CommentLikes Table
+	createCommentLikesTable := `
+CREATE TABLE IF NOT EXISTS comment_likes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    comment_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (comment_id) REFERENCES comments (id)
+);`
+	_, err = MyDBVar.Exec(createCommentLikesTable)
+	if err != nil {
+		log.Fatal("Could not create comment_likes table: ", err)
+	}
+
+	// Create CommentDisLikes Table
+	createCommentDisLikesTable := `
+CREATE TABLE IF NOT EXISTS comment_dislikes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    comment_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (comment_id) REFERENCES comments (id)
+);`
+	_, err = MyDBVar.Exec(createCommentDisLikesTable)
+	if err != nil {
+		log.Fatal("Could not create comment_dislikes table: ", err)
+	}
 }
 
 // GetDB returns the database instance

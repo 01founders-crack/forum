@@ -323,3 +323,71 @@ func GetPostsByFilters(categoryID int, likesExist bool, commentsExist bool, user
 
 	return posts, nil
 }
+
+// AddCommentLike adds a new like to the comment_likes table
+func AddCommentLike(userID, commentID int) (sql.Result, error) {
+	query := `INSERT INTO comment_likes (user_id, comment_id) VALUES (?, ?)`
+	return MyDBVar.Exec(query, userID, commentID)
+}
+
+// AddCommentDislike adds a new dislike to the comment_dislikes table
+func AddCommentDislike(userID, commentID int) (sql.Result, error) {
+	query := `INSERT INTO comment_dislikes (user_id, comment_id) VALUES (?, ?)`
+	return MyDBVar.Exec(query, userID, commentID)
+}
+
+// HasUserLikedComment checks if a user has liked a specific comment
+func HasUserLikedComment(userID, commentID int) (bool, error) {
+	query := `SELECT COUNT(*) FROM comment_likes WHERE user_id = ? AND comment_id = ?`
+	var count int
+	err := GetDB().QueryRow(query, userID, commentID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// HasUserDislikedComment checks if a user has disliked a specific comment
+func HasUserDislikedComment(userID, commentID int) (bool, error) {
+	query := `SELECT COUNT(*) FROM comment_dislikes WHERE user_id = ? AND comment_id = ?`
+	var count int
+	err := GetDB().QueryRow(query, userID, commentID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// RemoveCommentLike removes a like from the comment_likes table
+func RemoveCommentLike(userID, commentID int) (sql.Result, error) {
+	query := `DELETE FROM comment_likes WHERE user_id = ? AND comment_id = ?`
+	return MyDBVar.Exec(query, userID, commentID)
+}
+
+// RemoveCommentDislike removes a dislike from the comment_dislikes table
+func RemoveCommentDislike(userID, commentID int) (sql.Result, error) {
+	query := `DELETE FROM comment_dislikes WHERE user_id = ? AND comment_id = ?`
+	return MyDBVar.Exec(query, userID, commentID)
+}
+
+// CountLikesByComment counts the number of likes for a specific comment
+func CountLikesByComment(commentID int) (int, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM comment_likes WHERE comment_id = ?`
+	err := MyDBVar.QueryRow(query, commentID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// CountDislikesByComment counts the number of dislikes for a specific comment
+func CountDislikesByComment(commentID int) (int, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM comment_dislikes WHERE comment_id = ?`
+	err := MyDBVar.QueryRow(query, commentID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
