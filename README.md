@@ -13,7 +13,7 @@ sudo systemctl stop docker
 
 insert data to db 
 ```bash
-sqlite3 forum.db < init_categories.sql
+sqlite3 forum.db < sql_queries/init_categories.sql
 ```
 
 ```bash
